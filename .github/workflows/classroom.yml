@@ -23,9 +23,18 @@ jobs:
         command: python hello_test.py
         timeout: 10
         max-score: 1
+    - name: hello_test
+      id: hello_test
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: hello_test
+        setup-command: sudo -H pip3 install pytest
+        command: pytest
+        timeout: 10
     - name: Autograding Reporter
       uses: education/autograding-grading-reporter@v1
       env:
         HELLO-TEST_RESULTS: "${{steps.hello-test.outputs.result}}"
+        HELLO_TEST_RESULTS: "${{steps.hello_test.outputs.result}}"
       with:
-        runners: hello-test
+        runners: hello-test,hello_test
